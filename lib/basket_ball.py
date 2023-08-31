@@ -182,3 +182,148 @@ def game_dict():
             ]
         }
     }
+
+### Helper Functions ###
+# 1. Get the details of a specific player
+def get_player_details(p_name):
+
+    # get all the games details
+    game_details = game_dict()
+
+    # get all players details
+    players_info = game_details['home']['players']
+    players_info.extend(game_details['away']['players'])
+
+    # Get the details of the player of interest
+    player_of_interest = [p_info for p_info in players_info if p_info['name'] == p_name][0]
+
+    # return the player of interest
+    return player_of_interest
+
+# 2. Get team details
+def get_team_details(t_name):
+
+    # get all the games details
+    game_details = game_dict()
+
+    # get all teams details
+    teams_info = [game_details['home'], game_details['away']]
+
+    # Get the details of the player of interest
+    team_of_interest = [t_info for t_info in teams_info if t_info['team_name'] == t_name][0]
+
+    # return the player of interest
+    return team_of_interest
+
+# 3. Get the rebounds for a shoe brand
+def get_shoe_brand_rebounds(brand):
+
+    # get all the games details
+    game_details = game_dict()
+
+    # get all players details
+    players_info = game_details['home']['players']
+    players_info.extend(game_details['away']['players'])
+
+    # Get the details of the player of interest
+    players_of_interest_rebounds = [p_info["rebounds_per_game"] for p_info in players_info if p_info['shoe_brand'] == brand]
+
+    return players_of_interest_rebounds
+
+# 4. Get the shoe brands
+def get_shoe_brands():
+    # get all the games details
+    game_details = game_dict()
+
+    # get all players details
+    players_info = game_details['home']['players']
+    players_info.extend(game_details['away']['players'])
+
+    # grab shoe brands
+    shoe_brands = [p_info["shoe_brand"] for p_info in players_info]
+
+    return list(set(shoe_brands))
+
+
+### Deliverables ###
+### 1. num_points_per_game()
+
+def num_points_per_game(name):
+    # Get the player's info 
+    player_info = get_player_details(name)
+
+    # return the points per game
+    return player_info["points_per_game"]
+
+
+### 2. player_age()
+
+def player_age(name):
+    # Get the player's info 
+    player_info = get_player_details(name)
+
+    # return the points per game
+    return player_info["age"]
+
+
+### 3. team_colors()
+
+def team_colors(t_name):
+
+    # get the team information
+    team_info = get_team_details(t_name)
+
+    # return the team colors
+    return team_info['colors']
+
+### 4. team_names()
+
+def team_names():
+    # get all the games details
+    game_details = game_dict()
+
+    # get all teams details
+    teams_info = [game_details['home'], game_details['away']]
+
+    return [t_info['team_name'] for t_info in teams_info]
+
+
+### 5. player_numbers()
+
+def player_numbers(t_name):
+    
+    # get the team information
+    team_info = get_team_details(t_name)
+
+    # get team players
+    team_players = team_info['players']
+
+    return [player['number'] for player in team_players]
+
+
+### 6. player_stats()
+
+def player_stats(name):
+    return get_player_details(name)
+
+
+### 7. average_rebounds_by_shoe_brand()
+
+def average_rebounds_by_shoe_brand():
+
+    # get the shoe brands
+    #shoe_brands = get_shoe_brands()
+    shoe_brands = ['Nike', 'Adidas', 'Puma', 'Jordan'] # maintain order as in the test file
+    
+    # get players rebounds and print the average
+    for s_brand in shoe_brands:
+        # get the rebounds for the shoe brand
+        rebounds = get_shoe_brand_rebounds(s_brand)
+
+        # get the average
+        average = sum(rebounds)/len(rebounds)
+
+        print(f"{s_brand}:  {average:.2f}")
+
+    # return None
+    #return None
